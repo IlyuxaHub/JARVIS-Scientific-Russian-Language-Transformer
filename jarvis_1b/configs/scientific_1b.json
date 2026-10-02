@@ -1,0 +1,83 @@
+{
+  "model": {
+    "vocab_size": 32768,
+    "n_layers": 20,
+    "d_model": 2048,
+    "n_heads": 16,
+    "d_ff": 5504,
+    "context": 2048,
+    "rope_theta": 10000.0,
+    "norm_eps": 1e-05,
+    "dropout": 0.0,
+    "init_std": 0.02,
+    "gradient_checkpointing": true,
+    "loss_chunk_tokens": 512
+  },
+  "data": {
+    "manifest": "data/scientific/manifest.json",
+    "sampling": "random",
+    "shuffle_block": 4096,
+    "workers": 4,
+    "pin_memory": true,
+    "persistent_workers": true,
+    "prefetch_factor": 2,
+    "verify_hashes": true,
+    "validation_slices": []
+  },
+  "optimizer": {
+    "weight_decay": 0.1,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "eps": 1e-08,
+    "fused": false,
+    "grad_clip": 1.0
+  },
+  "scheduler": {
+    "max_lr": 0.0003,
+    "min_lr": 3e-05,
+    "warmup_steps": 2000,
+    "total_steps": 100000
+  },
+  "distributed": {
+    "backend": "nccl",
+    "timeout_seconds": 1800,
+    "bucket_cap_mb": 25,
+    "expected_world_size": 0
+  },
+  "precision": {
+    "dtype": "bf16",
+    "tf32": true,
+    "deterministic": false
+  },
+  "training": {
+    "device": "cuda",
+    "seed": 20260903,
+    "micro_batch_size": 2,
+    "gradient_accumulation_steps": 32,
+    "max_steps": 100000,
+    "compile": false,
+    "compile_fallback": true,
+    "compile_mode": "default",
+    "cpu_threads": 4
+  },
+  "checkpointing": {
+    "directory": "runs/scientific-1b/checkpoints",
+    "every_steps": 500,
+    "keep_numbered": 3,
+    "free_space_margin_gib": 2.0,
+    "enabled": true
+  },
+  "logging": {
+    "every_steps": 10,
+    "eval_every_steps": 500,
+    "eval_batches": 32,
+    "jsonl": "runs/scientific-1b/metrics.jsonl"
+  },
+  "benchmark": {
+    "warmup_steps": 10,
+    "measured_steps": 50,
+    "output": "runs/benchmark.json",
+    "gpu_poll_seconds": 1.0,
+    "vram_headroom_gib": 12.0
+  }
+}
